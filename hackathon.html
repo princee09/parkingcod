@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Charge Management</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+    }
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+        text-align: center;
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+    input[type="datetime-local"] {
+        width: calc(100% - 12px);
+        margin-bottom: 15px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: block;
+        margin: 0 auto;
+    }
+    #result {
+        margin-top: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+    img {
+        display: block;
+        margin: 20px auto;
+        max-width: 100%;
+        height: auto;
+    }
+    .link{
+        background-color: #e74c3c;
+        text-align: center;
+        position:relative;
+        left: 38%;
+        align-items: left;
+        font-size: 15px;
+        font-family: sans-serif;
+        width: 250px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        margin:15px;
+        padding:13px;
+        border-radius: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Charge Management</h2>
+    <form id="parkingForm">
+        <label for="inTime">In Time:</label>
+        <input type="datetime-local" id="inTime" name="inTime" required><br>
+        <label for="outTime">Out Time:</label>
+        <input type="datetime-local" id="outTime" name="outTime" required><br>
+        <button type="button" onclick="calculateCharges()">Calculate Charges</button>
+    </form>
+    <div id="result"></div>
+</div>
+<div class="link"><a href="main.html" style="color: #ffffff;text-decoration: none;">Entry of Vehicles</a></div>
+
+<img style="width:500px;height:300px;border-radius:5px;" src="parking.jpg" alt="Parking Lot Image">
+<script>
+    function calculateCharges() {
+        var inTime = new Date(document.getElementById("inTime").value);
+        var outTime = new Date(document.getElementById("outTime").value);
+        var difference = Math.abs(outTime - inTime) / 1000 / 60; // Difference in minutes
+        var charges = 0;
+        if (difference <= 10) {
+            document.getElementById("result").innerText = "Parking is free (less than 10 minutes)";
+            return;
+        } else if (difference <= 120) { // 2 hours
+            charges = 40; // Rs. 40 for 4 wheeler up to 2 hours
+        } else {
+            charges = 40 + Math.ceil((difference - 120) / 60) * 20; // Rs. 20 for every additional hour for 4 wheeler
+        }
+        document.getElementById("result").innerText = "Parking charges: Rs. " + charges;
+    }
+</script>
+
+</body>
+</html>
